@@ -1,6 +1,8 @@
 'use client';
+import { PDFViewer } from '@react-pdf/renderer';
 import { X } from 'lucide-react';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
+import Pdf from './Pdf';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
@@ -9,7 +11,7 @@ const InputMission: React.FC<{
   mission: TMission;
   setMission: (e: ChangeEvent<HTMLInputElement>) => void;
   name: keyof TMission;
-}> = ({ mission, setMission, name }) => {
+}> = memo(({ mission, setMission, name }) => {
   return (
     <TableCell>
       <Input
@@ -20,10 +22,11 @@ const InputMission: React.FC<{
       />
     </TableCell>
   );
-};
+});
 
 const CreateInvoice = () => {
   const [missions, setMissions] = useState<TMission[]>([]);
+  const [pdfValues, setPdfValues] = useState<TMission[]>([]);
 
   const setMission = (index: number, key: keyof TMission) => (e: ChangeEvent<HTMLInputElement>) => {
     const newMissions = [...missions];
@@ -86,11 +89,19 @@ const CreateInvoice = () => {
             (mission) =>
               mission.title === '' || mission.description === '' || isNaN(mission.price) || isNaN(mission.quantity)
           )}
-          onClick={() => console.log(missions)}
+          onClick={() => {
+            console.log(missions);
+            setPdfValues(structuredClone(missions));
+          }}
         >
           Generer
         </Button>
       )}
+      {/* {pdfValues.length !== 0 && ( */}
+      <PDFViewer width="850px" height="600px">
+        <Pdf missions={pdfValues} />
+      </PDFViewer>
+      {/* )} */}
     </div>
   );
 };
