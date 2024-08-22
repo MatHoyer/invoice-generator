@@ -1,7 +1,7 @@
 'use client';
 import { PDFViewer } from '@react-pdf/renderer';
 import { X } from 'lucide-react';
-import { ChangeEvent, memo, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Pdf from './Pdf';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -11,7 +11,7 @@ const InputMission: React.FC<{
   mission: TMission;
   setMission: (e: ChangeEvent<HTMLInputElement>) => void;
   name: keyof TMission;
-}> = memo(({ mission, setMission, name }) => {
+}> = ({ mission, setMission, name }) => {
   return (
     <TableCell>
       <Input
@@ -22,7 +22,7 @@ const InputMission: React.FC<{
       />
     </TableCell>
   );
-});
+};
 
 const CreateInvoice = () => {
   const [missions, setMissions] = useState<TMission[]>([]);

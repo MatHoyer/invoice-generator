@@ -8,47 +8,43 @@ const styles = StyleSheet.create({
     gap: -1,
     minHeight: '15px',
   },
-  title: {
-    width: '100px',
+  num: {
+    width: '125px',
     paddingTop: '5px',
     paddingBottom: '5px',
     border: '1px solid black',
   },
-  description: {
-    width: '100px',
+  date: {
+    width: '125px',
     paddingTop: '5px',
     paddingBottom: '5px',
     border: '1px solid black',
   },
-  quantity: {
-    width: '100px',
+  period: {
+    width: '125px',
     paddingTop: '5px',
     paddingBottom: '5px',
     border: '1px solid black',
   },
-  price: {
-    width: '100px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-    border: '1px solid black',
-  },
-  total: {
-    width: '100px',
+  name: {
+    width: '125px',
     paddingTop: '5px',
     paddingBottom: '5px',
     border: '1px solid black',
   },
 });
 
-const InfoTableRow: React.FC<{ rowData: TMission }> = ({ rowData }) => (
+const InfoTableRow: React.FC<{ id: string; invoiceDate: string; prevMonth: string; name: string }> = ({
+  id,
+  invoiceDate,
+  prevMonth,
+  name,
+}) => (
   <View style={styles.row}>
-    <Text style={styles.title}>{rowData.title}</Text>
-    <Text style={styles.description}>{rowData.description}</Text>
-    <Text style={styles.quantity}>{rowData.quantity !== 0 ? rowData.quantity : ''}</Text>
-    <Text style={styles.price}>{rowData.price !== 0 ? `${rowData.price}€` : ''}</Text>
-    <Text style={styles.total}>
-      {rowData.quantity * rowData.price !== 0 ? `${(rowData.quantity * rowData.price).toFixed(2)}€` : ''}
-    </Text>
+    <Text style={styles.num}>{id}</Text>
+    <Text style={styles.date}>{invoiceDate}</Text>
+    <Text style={styles.period}>{prevMonth}</Text>
+    <Text style={styles.name}>{name}</Text>
   </View>
 );
 

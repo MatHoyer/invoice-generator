@@ -6,30 +6,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     textAlign: 'center',
     gap: -1,
+    minHeight: '15px',
   },
   title: {
     width: '100px',
     paddingTop: '5px',
     paddingBottom: '5px',
-    border: '1px solid black',
   },
   description: {
     width: '100px',
     paddingTop: '5px',
     paddingBottom: '5px',
-    border: '1px solid black',
   },
   quantity: {
     width: '100px',
     paddingTop: '5px',
     paddingBottom: '5px',
-    border: '1px solid black',
   },
   price: {
     width: '100px',
     paddingTop: '5px',
     paddingBottom: '5px',
-    border: '1px solid black',
+    paddingRight: '5px',
+    textAlign: 'right',
   },
   total: {
     width: '100px',
@@ -39,14 +38,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const InvoiceTableHeader = () => (
-  <View style={{ ...styles.row, fontFamily: 'Inter', fontWeight: 700 }}>
-    <Text style={styles.title}>PROJET</Text>
-    <Text style={styles.description}>DESCRIPTION</Text>
-    <Text style={styles.quantity}>QUANTITE</Text>
-    <Text style={styles.price}>PRIX UNITAIRE</Text>
-    <Text style={styles.total}>TOTAL</Text>
+const InvoiceTableEndRow: React.FC<{ line: string; data: number }> = ({ line, data }) => (
+  <View style={styles.row}>
+    <Text style={styles.title}></Text>
+    <Text style={styles.description}></Text>
+    <Text style={styles.quantity}></Text>
+    <Text style={{ ...styles.price, fontFamily: 'Inter', fontWeight: line !== 'TOTAL HT' ? 400 : 700 }}>{line}</Text>
+    <Text style={styles.total}>{data.toFixed(2)}€</Text>
   </View>
 );
 
-export default InvoiceTableHeader;
+export default InvoiceTableEndRow;

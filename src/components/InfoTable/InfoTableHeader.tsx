@@ -4,35 +4,30 @@ const styles = StyleSheet.create({
   row: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     textAlign: 'center',
     gap: -1,
   },
-  title: {
-    width: '100px',
+  num: {
+    width: '125px',
     paddingTop: '5px',
     paddingBottom: '5px',
     border: '1px solid black',
   },
-  description: {
-    width: '100px',
+  date: {
+    width: '125px',
     paddingTop: '5px',
     paddingBottom: '5px',
     border: '1px solid black',
   },
-  quantity: {
-    width: '100px',
+  period: {
+    width: '125px',
     paddingTop: '5px',
     paddingBottom: '5px',
     border: '1px solid black',
   },
-  price: {
-    width: '100px',
-    paddingTop: '5px',
-    paddingBottom: '5px',
-    border: '1px solid black',
-  },
-  total: {
-    width: '100px',
+  name: {
+    width: '125px',
     paddingTop: '5px',
     paddingBottom: '5px',
     border: '1px solid black',
@@ -40,12 +35,11 @@ const styles = StyleSheet.create({
 });
 
 const InfoTableHeader = () => (
-  <View style={styles.row}>
-    <Text style={styles.title}>PROJET</Text>
-    <Text style={styles.description}>DESCRIPTION</Text>
-    <Text style={styles.quantity}>QUANTITE</Text>
-    <Text style={styles.price}>PRIX UNITAIRE</Text>
-    <Text style={styles.total}>TOTAL</Text>
+  <View style={{ ...styles.row, fontFamily: 'Inter', fontWeight: 700 }}>
+    <Text style={{ ...styles.num }}>NUMERO DE FACTURE</Text>
+    <Text style={styles.date}>DATE DE FACTURE</Text>
+    <Text style={styles.period}>PERIODE</Text>
+    <Text style={styles.name}>DEMANDEUR</Text>
   </View>
 );
 
