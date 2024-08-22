@@ -97,11 +97,11 @@ const CreateInvoice = () => {
           Generer
         </Button>
       )}
-      {/* {pdfValues.length !== 0 && ( */}
-      <PDFViewer width="850px" height="600px">
-        <Pdf missions={pdfValues} />
-      </PDFViewer>
-      {/* )} */}
+      {pdfValues.length !== 0 && (
+        <PDFViewer width="850px" height="600px">
+          <Pdf missions={pdfValues} />
+        </PDFViewer>
+      )}
     </div>
   );
 };
