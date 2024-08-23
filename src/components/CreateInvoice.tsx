@@ -90,7 +90,6 @@ const CreateInvoice = () => {
               mission.title === '' || mission.description === '' || isNaN(mission.price) || isNaN(mission.quantity)
           )}
           onClick={() => {
-            console.log(missions);
             setPdfValues(structuredClone(missions));
           }}
         >
