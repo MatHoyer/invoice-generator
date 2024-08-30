@@ -55,13 +55,11 @@ const Pdf: React.FC<{
 
   const id = new Date().getFullYear() + '/' + localInvoice.number?.toString().padStart(4, '0');
   const invoiceDate = getDateAsString(new Date(), DateString.short);
-  // const prevMonth = capitalize(getDateAsString(subMonths(new Date(), 1), DateString.monthNyear));
 
   return (
     <Document
       title={
-        '0'.repeat((localInvoice.number || 0) % 10) +
-        localInvoice.number +
+        localInvoice.number?.toString().padStart(4, '0') +
         ' - ' +
         getDateAsString(subMonths(new Date(), 1), DateString.month) +
         ' - ' +
