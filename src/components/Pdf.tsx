@@ -1,32 +1,16 @@
-import { useLocalstorage } from '@/hooks/useLocalstorage';
-import { capitalize, DateString, getDateAsString } from '@/lib/utils';
+import { DateString, getDateAsString } from '@/lib/utils';
 import { Document, Font, Page, Text, View } from '@react-pdf/renderer';
 import { subMonths } from 'date-fns';
 import InfoTable from './InfoTable/InfoTable';
 import InvoiceTable from './InvoiceTable/InvoiceTable';
 
-const Pdf: React.FC<{ missions: TMission[] }> = ({ missions }) => {
-  const [localMe, setLocalMe] = useLocalstorage<TMe>('me', {
-    name: '',
-    address: '',
-    tel: '',
-    email: '',
-    iban: '',
-    tva: '',
-    bic: '',
-    bankName: '',
-    bankAddress: '',
-  });
-  const [localClient, setLocalClient] = useLocalstorage<TClient>('client', {
-    name: '',
-    address: '',
-    tva: '',
-    iban: '',
-  });
-  const [localInvoice, setLocalInvoice] = useLocalstorage<TInvoice>('invoice', {
-    number: 0,
-  });
-
+const Pdf: React.FC<{
+  missions: TMission[];
+  localMe: TMe;
+  localClient: TClient;
+  localInvoice: TInvoice;
+  prevMonth: string;
+}> = ({ missions, localMe, localClient, localInvoice, prevMonth }) => {
   Font.register({
     family: 'Inter',
     fonts: [
@@ -69,9 +53,9 @@ const Pdf: React.FC<{ missions: TMission[] }> = ({ missions }) => {
     ],
   });
 
-  const id = new Date().getFullYear() + '/' + '0'.repeat((localInvoice.number || 0) % 10) + localInvoice.number;
+  const id = new Date().getFullYear() + '/' + localInvoice.number?.toString().padStart(4, '0');
   const invoiceDate = getDateAsString(new Date(), DateString.short);
-  const prevMonth = capitalize(getDateAsString(subMonths(new Date(), 1), DateString.monthNyear));
+  // const prevMonth = capitalize(getDateAsString(subMonths(new Date(), 1), DateString.monthNyear));
 
   return (
     <Document

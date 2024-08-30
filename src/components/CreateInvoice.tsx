@@ -1,4 +1,6 @@
 'use client';
+import { useLocalstorage } from '@/hooks/useLocalstorage';
+import { capitalize, DateString, getDateAsString } from '@/lib/utils';
 import { PDFViewer } from '@react-pdf/renderer';
 import { X } from 'lucide-react';
 import { ChangeEvent, useState } from 'react';
@@ -27,6 +29,31 @@ const InputMission: React.FC<{
 const CreateInvoice = () => {
   const [missions, setMissions] = useState<TMission[]>([]);
   const [pdfValues, setPdfValues] = useState<TMission[]>([]);
+  const [prevMonth, setPrevMonth] = useState<string>(() => {
+    const today = new Date();
+    today.setMonth(today.getMonth() - 1);
+    return getDateAsString(today, 'yyyy-MM' as DateString);
+  });
+  const [localMe, setLocalMe] = useLocalstorage<TMe>('me', {
+    name: '',
+    address: '',
+    tel: '',
+    email: '',
+    iban: '',
+    tva: '',
+    bic: '',
+    bankName: '',
+    bankAddress: '',
+  });
+  const [localClient, setLocalClient] = useLocalstorage<TClient>('client', {
+    name: '',
+    address: '',
+    tva: '',
+    iban: '',
+  });
+  const [localInvoice, setLocalInvoice] = useLocalstorage<TInvoice>('invoice', {
+    number: 0,
+  });
 
   const setMission = (index: number, key: keyof TMission) => (e: ChangeEvent<HTMLInputElement>) => {
     const newMissions = [...missions];
@@ -37,6 +64,8 @@ const CreateInvoice = () => {
     }
     setMissions(newMissions);
   };
+
+  console.log(prevMonth);
 
   return (
     <div className="flex flex-col items-center gap-5 my-10">
@@ -83,6 +112,14 @@ const CreateInvoice = () => {
       >
         Nouvelle mission
       </Button>
+      <input
+        type={'month'}
+        className="text-background text-sm p-2 rounded-md"
+        value={prevMonth}
+        onChange={(e) => {
+          setPrevMonth(e.target.value);
+        }}
+      />
       {missions.length > 0 && (
         <Button
           disabled={missions.some(
@@ -91,6 +128,7 @@ const CreateInvoice = () => {
           )}
           onClick={() => {
             setPdfValues(structuredClone(missions));
+            setLocalInvoice({ number: (localInvoice?.number || 0) + 1 });
           }}
         >
           Generer
@@ -98,7 +136,13 @@ const CreateInvoice = () => {
       )}
       {pdfValues.length !== 0 && (
         <PDFViewer width="850px" height="600px">
-          <Pdf missions={pdfValues} />
+          <Pdf
+            missions={pdfValues}
+            localMe={localMe}
+            localClient={localClient}
+            localInvoice={localInvoice}
+            prevMonth={capitalize(getDateAsString(new Date(prevMonth + '-01'), DateString.monthNyear))}
+          />
         </PDFViewer>
       )}
     </div>
